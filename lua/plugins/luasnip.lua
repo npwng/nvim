@@ -10,6 +10,7 @@ return {
             enable_autosnippets = true,
             history = true,
             delete_check_events = "TextChanged",
+            update_events = "TextChanged,TextChangedI",
         },
         config = function(_, opts)
             local luasnip = require("luasnip")

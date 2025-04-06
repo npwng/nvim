@@ -42,6 +42,12 @@ return {
             fallback()
         end
         end, { "i", "s" })
+
+        cmp.setup.filetype("tex", {
+            sources = cmp.config.sources({
+                { name = "path" },
+            }),
+        })
     end,
     },
 }
