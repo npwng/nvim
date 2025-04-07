@@ -240,7 +240,7 @@ return {
   )),
 
   s({
-    trig = "([^\\])sqrt",
+    trig = "([^\\])sq",
     desc = "square root",
     regTrig = true,
     snippetType = "autosnippet",
