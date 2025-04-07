@@ -53,6 +53,25 @@ return {
   )),
 
   s({
+    trig = ";n",
+    desc = "naught or 0",
+    snippetType = "autosnippet",
+    condition = in_mathzone,
+    wordTrig = false,
+  }, {t("0")}
+  ),
+
+  s({
+    trig = ";e",
+    desc = "equals",
+    snippetType = "autosnippet",
+    condition = in_mathzone,
+    wordTrig = false,
+  }, {t("=")}
+  ),
+
+
+  s({
     trig = "sb",
     desc = "subscript",
     snippetType = "autosnippet",

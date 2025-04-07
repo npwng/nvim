@@ -18,7 +18,7 @@ return {
         -- Override the <Tab> mapping with a "Supertab" approach
         opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
-            -- Completion menu is open -> select next item
+            -- Completion menu is open -> select next item 
             cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
             -- If we can expand a snippet or jump in one, do so
@@ -46,6 +46,13 @@ return {
         cmp.setup.filetype("tex", {
             sources = cmp.config.sources({
                 { name = "path" },
+                { name = "cmp-vimtex", option = {
+                    -- This makes paths relative to the main file
+                    is_relative = true,
+                    -- You can also specify additional options if needed
+                } },
+                { name = "nvim_lsp" },
+                -- { name = "buffer" },
             }),
         })
     end,
