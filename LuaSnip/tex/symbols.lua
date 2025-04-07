@@ -54,6 +54,38 @@ return {
     }),
 
     s({
+        trig = "([^\\])phi",
+        desc = "phi",
+        regTrig = true,
+        snippetType = "autosnippet",
+        condition = in_mathzone,
+        wordTrig = false,
+        }, fmta(
+        "<char>\\phi ",
+        { 
+            char = f(function(_, snip)
+                return snip.captures[1]
+            end, {}),
+        }
+    )),
+
+    s({
+        trig = "([^\\])psi",
+        desc = "psi",
+        regTrig = true,
+        snippetType = "autosnippet",
+        condition = in_mathzone,
+        wordTrig = false,
+        }, fmta(
+        "<char>\\psi ",
+        { 
+            char = f(function(_, snip)
+                return snip.captures[1]
+            end, {}),
+        }
+    )),
+
+    s({
         trig = "([^\\])theta",
         desc = "theta",
         regTrig = true,

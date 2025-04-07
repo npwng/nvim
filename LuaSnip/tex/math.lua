@@ -5,6 +5,7 @@ local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
 local d = ls.dynamic_node
+local c = ls.choice_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
@@ -29,6 +30,18 @@ return {
   )),
 
   s({
+    trig = "==",
+    desc = "align equals",
+    snippetType = "autosnippet",
+    condition = in_mathzone,
+    wordTrig = false,
+  }, fmta(
+    "&= <> \\\\",
+    { i(1) }
+  )),
+
+
+  s({
     trig = "/s/",
     desc = "sfraction",
     snippetType = "autosnippet",
@@ -44,6 +57,7 @@ return {
     desc = "subscript",
     snippetType = "autosnippet",
     condition = in_mathzone,
+    wordTrig = false,
   }, fmta(
     "_{<>}",
     { i(1) }
@@ -72,10 +86,42 @@ return {
 
   s(
     {
+      -- 'blr(.)(.)' captures exactly 2 characters after 'blr'
+      trig = "blr(.)(.)",
+      regTrig = true,
+      wordTrig = false,
+      priority = 100,
+      condition = in_mathzone, 
+      desc = "Match any two chars after 'blr' and wrap them in \\left...\\right... with size choice",
+    },
+    fmta(
+      "\\<>l<lcap> <> \\<>r<rcap>",
+      {
+        lcap = f(function(_, snip)
+          return snip.captures[1]
+        end, {}),
+        rcap = f(function(_, snip)
+          return snip.captures[2]
+        end, {}),
+        c(1, {
+          t("big"),
+          t("Big"),
+          t("bigg"),
+          t("Bigg"),
+        }),
+        i(2) ,
+        rep(1),  
+      }
+    )
+  ),
+
+  s(
+    {
       -- 'lr(.)(.)' captures exactly 2 characters after 'lr'
       trig = "lr(.)(.)",
       regTrig = true,
-      wordTrig = false,           -- expand even inside a word
+      wordTrig = false,
+      priority = 10,
       condition = in_mathzone, 
       desc = "Match any two chars after 'lr' and wrap them in \\left...\\right...",
     },
@@ -96,6 +142,68 @@ return {
       i(0),
     }
   ),
+
+    s({trig=";I",snippetType="autosnippet",desc="integral with infinite or inserted limits",wordTrig=false},
+    fmta([[
+        <>
+        ]],
+        {
+        c(1,{
+            t("\\int_{-\\infty}^\\infty"),
+            sn(nil,fmta([[ \int_{<>}^{<>} ]],{i(1),i(2)})),
+            })
+        }
+    )
+  ),
+
+
+  s({
+    trig = "([^\\])cos",
+    desc = "cos",
+    regTrig = true,
+    snippetType = "autosnippet",
+    condition = in_mathzone,
+    wordTrig = false,
+  }, fmta(
+    "<char>\\cos",
+    { 
+      char = f(function(_, snip)
+        return snip.captures[1]
+      end, {}),
+    }
+  )),
+
+  s({
+    trig = "([^\\])sin",
+    desc = "sin",
+    regTrig = true,
+    snippetType = "autosnippet",
+    condition = in_mathzone,
+    wordTrig = false,
+  }, fmta(
+    "<char>\\sin",
+    { 
+      char = f(function(_, snip)
+        return snip.captures[1]
+      end, {}),
+    }
+  )),
+
+  s({
+    trig = "([^\\])tan",
+    desc = "tan",
+    regTrig = true,
+    snippetType = "autosnippet",
+    condition = in_mathzone,
+    wordTrig = false,
+  }, fmta(
+    "<char>\\tan",
+    { 
+      char = f(function(_, snip)
+        return snip.captures[1]
+      end, {}),
+    }
+  )),
 
   s({
     trig = "([^\\])sum",
@@ -122,7 +230,7 @@ return {
     condition = in_mathzone,
     wordTrig = false,
   }, fmta(
-    "<char>\\int{<>}^{<>}",
+    "<char>\\int_{<>}^{<>}",
     { 
       char = f(function(_, snip)
         return snip.captures[1]
@@ -190,11 +298,10 @@ return {
   s({
     trig = "si",
     desc = "siunitx",
-    snippetType = "autosnippet",
     condition = in_mathzone,
-    wordTrig = false,
   }, fmta(
     "\\si{<>}{<>}",
     { i(1),i(2) }
   )),
+
 }

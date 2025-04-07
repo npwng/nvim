@@ -51,6 +51,48 @@ return {
     )),
 
     s({
+        trig = "it",
+        desc = "italic",
+    }, fmta(
+        "\\textit{<>}",
+        { i(1) }
+    )),
+
+    s({
+        trig = "bld",
+        desc = "bold",
+    }, fmta(
+        "\\textbf{<>}",
+        { i(1) }
+    )),
+
+    s({
+        trig = "emph",
+        desc = "emph",
+    }, fmta(
+        "\\emph{<>}",
+        { i(1) }
+    )),
+
+    s({
+        trig = "ref",
+        desc = "reference",
+    }, fmta(
+        "\\cref{<>}",
+        { i(1) }
+    )),
+
+    s({trig="hr", dscr="The hyperref package's href{}{} command (for url links)"},
+    fmta(
+        [[\href{<>}{<>}]],
+        {
+            i(1, "url"),
+            i(2, "display name"),
+        }
+        )
+    ),
+
+    s({
         trig = "beg",
         desc = "environment",
         snippetType = "autosnippet",
@@ -136,7 +178,6 @@ return {
         trig = "tke",
         desc = "inline math",
         snippetType = "autosnippet",
-        condition = line_begin
     }, fmta(
         "$<>$",
     {
